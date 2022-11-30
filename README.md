@@ -1,2 +1,10 @@
-# UnityGameTags
-Comparable tag system for Unity
+# GameTags
+Serializable comparable tag system for Unity.
+
+## Features
+
+### Child-parent relations
+
+### Comparisons
+
+### Inspector Support
