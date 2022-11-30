@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GameTagDatabase>
+    <GameTagArray>
+        <GameTag Name="ExampleRoot">
+            <SubTags>
+                <GameTag Name="ExampleChild0">
+                        <SubTags>
+                            <GameTag Name="ExampleGrandChild"/>
+                        </SubTags>
+                </GameTag>
+                <GameTag Name="ExampleChild1"/>
+                <GameTag Name="ExampleChild2"/>
+                <GameTag Name="ExampleChild3"/>
+            </SubTags>
+        </GameTag>
+    </GameTagArray>
+</GameTagDatabase>
