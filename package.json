@@ -1,0 +1,9 @@
+﻿{
+  "name": "eu.rubenvandermeersch.gametags",
+  "version": "1.0.0",
+  "description": "Comparable tags system that can be set up through an XML file.",
+  "displayName": "Ruvah.GameTags",
+  "unity" : "2019.1",
+  "author": "Ruben Vandermeersch",
+  "documentationUrl" : "https://github.com/Ruvah/UnityGameTags/wiki"
+}
