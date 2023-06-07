@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,8 +8,11 @@ namespace Ruvah.GameTags
     {
         // -- FIELDS
 
-        private static readonly string defaultSettingsPath = $"{Application.dataPath}/GameTags/GameTagSettings";
+        private static readonly string settingsFolderName = "GameTags";
+        private static readonly string absoluteSettingsFolderPath = $"{Application.dataPath}/{settingsFolderName}";
+        private static readonly string settingsAssetPath = $"Assets/{settingsFolderName}/GameTagSettings.asset";
 
+        
         // -- METHODS
 
         public static GameTagSettings LoadOrCreateSettings()
@@ -26,9 +30,14 @@ namespace Ruvah.GameTags
                     AssetDatabase.GUIDToAssetPath( setting_guids[0] ) );
             }
 
-            Debug.Log( $"Creating Settings asset for GameTags at {defaultSettingsPath}" );
+            Debug.Log( $"Creating Settings asset for GameTags at {absoluteSettingsFolderPath}" );
             GameTagSettings new_asset = ScriptableObject.CreateInstance<GameTagSettings>();
-            AssetDatabase.CreateAsset( new_asset, defaultSettingsPath );
+            if ( !Directory.Exists( absoluteSettingsFolderPath ) )
+            {
+                Directory.CreateDirectory( absoluteSettingsFolderPath );
+            }
+
+            AssetDatabase.CreateAsset( new_asset, settingsAssetPath );
             return new_asset;
         }
     }
