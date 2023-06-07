@@ -12,7 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
--Fixed GameTag folder and asset creation.   
+-Fixed GameTag folder and asset creation.
+-Fixed Changelog file extension
 
 ## [0.1.0] - 2022-11-30
 
