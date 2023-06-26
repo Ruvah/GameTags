@@ -1,6 +1,6 @@
 {
   "name": "eu.rubenvandermeersch.gametags",
-  "version": "0.1.0",
+  "version": "0.2.1-prerelease",
   "description": "Serializable comparable tags system that can be set up through an XML file.",
   "displayName": "Ruvah.GameTags",
   "unity": "2019.1",
