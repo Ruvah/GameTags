@@ -11,9 +11,7 @@ Tags can be easily setup through XML following a simple structure.
 
 ![xml_setup_example.png](https://i.imgur.com/rTGUo22.pngimg.)
 
-All that remains is referencing the XML file in the GameTagSettings Asset in the GameTags Prefab and drop it in your scene.
-
-![prefab_view0.1](https://i.imgur.com/VBM7nLy.png)![settings_view_0.1](https://i.imgur.com/tBcrujm.png)
+All that remains is referencing the XML file in the GameTagSettings Asset.
 
 Tags can be added by code at runtime through `GameTags.Instance.FindOrCreateTag("ExampleTag.Child")`
 

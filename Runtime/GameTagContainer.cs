@@ -13,16 +13,11 @@ namespace Ruvah.GameTags
 			get
 			{
 
-#if UNITY_EDITOR
-				if ( !Application.isPlaying )
+				if ( !Application.isPlaying
+				     || gameTag == null
+				     || Equals( gameTag, GameTag.InvalidTag ) )
 				{
-					return GameTag.InvalidTag;
-				}
-#endif
-
-				if ( gameTag == null || gameTag == GameTag.InvalidTag )
-				{
-					gameTag = GameTags.Instance.FindTagByFullName( FullTagName );
+					gameTag = GameTags.FindTagByFullName( FullTagName );
 				}
 
 				return gameTag;

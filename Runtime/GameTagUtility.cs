@@ -8,6 +8,11 @@ namespace Ruvah.GameTags
 {
 	public static class GameTagUtility
 	{
+		public static readonly string ResourcesPath = "GameTagSettings";
+		private static readonly string settingsFolderName = "GameTags/Resources/";
+		private static readonly string absoluteSettingsFolderPath = $"{Application.dataPath}/{settingsFolderName}";
+		private static readonly string settingsAssetPath = $"Assets/{settingsFolderName}/{ResourcesPath}.asset";
+		
 		public static void DeepForeach( this IEnumerable<GameTag> tags, Action<GameTag> action )
 		{
 			foreach ( var game_tag in tags )
@@ -60,5 +65,33 @@ namespace Ruvah.GameTags
 
 			return tag;
 		}
+		
+#if UNITY_EDITOR
+		public static GameTagSettings LoadOrCreateSettings()
+		{
+			string[] setting_guids = UnityEditor.AssetDatabase.FindAssets( "t:GameTagSettings" );
+
+			if ( setting_guids.Length > 0 )
+			{
+				if ( setting_guids.Length > 1 )
+				{
+					Debug.LogWarning( "Multiple assets for GameTagSettings found!" );
+				}
+
+				return UnityEditor.AssetDatabase.LoadAssetAtPath<GameTagSettings>(
+					UnityEditor.AssetDatabase.GUIDToAssetPath( setting_guids[0] ) );
+			}
+
+			Debug.Log( $"Creating Settings asset for GameTags at {absoluteSettingsFolderPath}" );
+			GameTagSettings new_asset = ScriptableObject.CreateInstance<GameTagSettings>();
+			if ( !Directory.Exists( absoluteSettingsFolderPath ) )
+			{
+				Directory.CreateDirectory( absoluteSettingsFolderPath );
+			}
+
+			UnityEditor.AssetDatabase.CreateAsset( new_asset, settingsAssetPath );
+			return new_asset;
+		}
+#endif
 	}
 }

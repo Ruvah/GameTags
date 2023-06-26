@@ -59,7 +59,7 @@ namespace Ruvah.GameTags
 
 		protected override AdvancedDropdownItem BuildRoot()
 		{
-			IReadOnlyList<GameTag> tags = EditorGameTags.GameTagDatabase.Tags;
+			IReadOnlyList<GameTag> tags = GameTags.Database.Tags;
 			var root = new AdvancedDropdownItem( "Tags" );
 			foreach ( var game_tag in tags )
 			{
@@ -83,7 +83,7 @@ namespace Ruvah.GameTags
 
 		public GameTagContainerPropertyDrawer()
 		{
-			EditorGameTags.OnDatabaseRefreshed += EditorGameTags_OnDatabaseRefreshed;
+			GameTags.OnDatabaseRefreshed += EditorGameTags_OnDatabaseRefreshed;
 		}
 
 		private void EditorGameTags_OnDatabaseRefreshed()
@@ -93,14 +93,14 @@ namespace Ruvah.GameTags
 
 		~GameTagContainerPropertyDrawer()
 		{
-			EditorGameTags.OnDatabaseRefreshed -= EditorGameTags_OnDatabaseRefreshed;
+			GameTags.OnDatabaseRefreshed -= EditorGameTags_OnDatabaseRefreshed;
 		}
 
 		private void RefreshDropdown( SerializedProperty full_tag_name_property )
 		{
 			tagDropDown = new GameTagDropdown( new AdvancedDropdownState() )
 			{
-				SelectedItemID = EditorGameTags.GameTagDatabase
+				SelectedItemID = GameTags.Database
 					.FindTagByFullName( full_tag_name_property.stringValue ).UniqueID
 			};
 		}
@@ -134,11 +134,12 @@ namespace Ruvah.GameTags
 			}
 
 			full_tag_name_property.stringValue =
-				EditorGameTags.GameTagDatabase.FindTagByID( tagDropDown.SelectedItemID ).FullName;
+				GameTags.Database.FindTagByID( tagDropDown.SelectedItemID ).FullName;
 
 			EditorGUI.indentLevel = indent;
 
 			EditorGUI.EndProperty();
+			property.serializedObject.ApplyModifiedProperties();
 		}
 	}
 }

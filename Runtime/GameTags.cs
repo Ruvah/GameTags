@@ -1,46 +1,65 @@
+using System;
 using UnityEngine;
 
 namespace Ruvah.GameTags
 {
-	public class GameTags : MonoBehaviour
+	public static partial class GameTags
 	{
 		// -- PROPERTIES
 
-		public static GameTags Instance
+		public static GameTagDatabase Database
 		{
 			get
 			{
-				Debug.Assert( instance, "No GameObject with instance of {nameof(GameTags)} alive" );
+				if ( GameTagDatabase == null )
+				{
+					ReloadGameTagDatabase();
+				}
 
-				return instance;
+				return GameTagDatabase;
 			}
 		}
 
 		// -- FIELDS
 
-		private static GameTags instance;
-
-		private GameTagDatabase gameTagDatabase;
-
-		[SerializeField] private GameTagSettings settings;
+		public static event Action OnDatabaseRefreshed;
+		private static GameTagDatabase GameTagDatabase;
+		private static GameTagSettings Settings;
 
 		// -- METHODS
 
-		private void Awake()
+		private static void ReloadGameTagDatabase()
 		{
-			DontDestroyOnLoad( gameObject );
-			instance = this;
-			gameTagDatabase = GameTagUtility.LoadDatabaseFromXML( settings.DatabaseFile );
+			LoadSettings();
+
+			GameTagDatabase = GameTagUtility.LoadDatabaseFromXML( Settings.DatabaseFile );
+
+			OnDatabaseRefreshed?.Invoke();
 		}
 
-		public GameTag FindTagByFullName( string full_name )
+		private static void LoadSettings()
 		{
-			return gameTagDatabase.FindTagByFullName( full_name );
+			Settings = null;
+#if UNITY_EDITOR
+			if ( !Application.isPlaying )
+			{
+				Settings = GameTagUtility.LoadOrCreateSettings();
+				return;
+			}
+#endif
+
+			Settings = Resources.Load<GameTagSettings>( GameTagUtility.ResourcesPath );
+			Debug.Assert( Settings, $"Could not find resource {GameTagUtility.ResourcesPath}" );
 		}
 
-		public GameTag FindOrCreateTag( string full_name )
+		public static GameTag FindTagByFullName( string full_name )
 		{
-			return gameTagDatabase.FindOrCreateTag( full_name );
+			return Database.FindTagByFullName( full_name );
+		}
+
+		public static GameTag FindOrCreateTag( string full_name )
+		{
+			return Database.FindOrCreateTag( full_name );
 		}
 	}
 }
